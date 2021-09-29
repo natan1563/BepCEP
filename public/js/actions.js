@@ -14,7 +14,7 @@ async function buscarCep(event) {
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then(response => response.json())
         .then(responseJson => {
-            // GRAVAR NOVO REGISTRO
+            gravarEndereco(responseJson);
             setDadosExibicao(responseJson);
         })
         .catch(error => {
@@ -30,6 +30,11 @@ async function buscarCep(event) {
 }
 
 function setDadosExibicao(responseJson) {
+    if (responseJson.erro) {
+        exibirBoxErroCep();
+        return false;
+    }
+
     document.getElementById('municipio').value   = responseJson.localidade;
     document.getElementById('bairro').value      = responseJson.bairro;
     document.getElementById('endereco').value    = responseJson.logradouro;
@@ -46,24 +51,33 @@ async function buscarInternamente(cep) {
         const data     = await response.json()
         return data;
     } catch (err) {
+        document.getElementById('boxResponse').style.display = "none";
+        exibirBoxErroCep();
         return false;
     }
 }
 
 function gravarEndereco(responseJson) {
-    fetch(`/api`, {method: 'POST', body: responseJson})
+    const param = {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(responseJson)
+    }
+
+    fetch('/api', param)
     .then(response => response.json())
-    .then(jsonResponse => console.log(jsonResponse))
+    .then(jsonResponse => jsonResponse)
     .catch(error => console.log(error));
 }
 
 function validarCep() {
-    let regex = /^(\d{4})-?(\d{4})$/;
+    let regex = /^(\d{4,5})-?\s?(\d{3,4})$/;
     const cep = document.getElementById("buscarCep").value;
 
-    if (!cep.length || !regex.test(cep)) return false;
-
-    return cep.replace(regex, '$1$2');
+    return (!cep.length || !regex.test(cep)) ? false : cep.replace(regex, '$1$2');
 }
 
 function exibirBoxErroCep() {

@@ -19,19 +19,29 @@ class CepController extends Controller
     {
         try {
             $this->validate($request, [
-                'cep'       => 'required',
-                'localidade'=> 'required',
-                'bairro'    => 'required',
-                'logradouro'=> 'required',
-                'uf'        => 'required'
+                'cep'        => 'required',
+                'localidade' => 'required',
+                'bairro'     => 'required',
+                'logradouro' => 'required',
+                'uf'         => 'required'
             ]);
 
-            if (!is_null(Cep::find($request->all()['cep']))) return response()  ->json(['message' => 'Cep já registrado'], 412);
+            $camposDesejados = $request->only([
+                'cep'       ,
+                'localidade',
+                'bairro'    ,
+                'logradouro',
+                'uf'
+            ]);
 
-            Cep::Create($request->all());
+            if (!is_null(Cep::find($camposDesejados['cep'])))
+                return response()->json(['message' => 'Cep já registrado'], 412);
+
+            $camposDesejados['cep'] = preg_replace("/^(\d{4,5})-?\s?(\d{3,4})$/", "$1$2", $camposDesejados['cep']);
+            Cep::Create($camposDesejados);
             return response()->json(['message' => 'Criado com sucesso'], 201);
         }catch (Exception $e) {;
-            return response()->json(['message' => 'Falha ao criar'], 422);
+            return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 
