@@ -19,11 +19,10 @@ async function buscarCep(event) {
         })
         .catch(error => {
             console.log(error);
-            exibirBoxErroCep();
+            exibirBoxErroCep('Ops! Seu cep não foi encontrado. Verifique o CEP ou tente novamente mais tarde.');
             document.getElementById('boxResponse').style.display = "none";
         });
-
-        return 0
+        return 0;
     }
 
     setDadosExibicao(enderecoArmazenado);
@@ -31,7 +30,7 @@ async function buscarCep(event) {
 
 function setDadosExibicao(responseJson) {
     if (responseJson.erro) {
-        exibirBoxErroCep();
+        exibirBoxErroCep('Falha no carregamento do seu endereço, por favor tente novamente.');
         return false;
     }
 
@@ -80,9 +79,11 @@ function validarCep() {
     return (!cep.length || !regex.test(cep)) ? false : cep.replace(regex, '$1$2');
 }
 
-function exibirBoxErroCep() {
+function exibirBoxErroCep(message = '') {
     document.getElementById('boxResponse').style.display = "none";
-    preparaBoxExibicaoMensagem('Erro ao tentar recuperar seu endereço. Por favor tente novamente.', 'alerta-sucesso', 'alerta-erro');
+    console.log('Mensagem: ' + message);
+    message = message.length ? message : 'Erro ao tentar recuperar seu endereço. Por favor tente novamente.';
+    preparaBoxExibicaoMensagem(message, 'alerta-sucesso', 'alerta-erro');
 }
 
 function exibirBoxSucessoCep() {

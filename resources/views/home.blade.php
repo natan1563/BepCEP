@@ -4,70 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>BepCEP</title>
-        <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('site/bootstrap.css') }}">
-        <style scoped>
-
-            body {
-                background: #C2C2C2;
-            }
-
-            #main {
-                height: 100vh;
-            }
-
-            .content-center {
-                margin-top: 30px;
-            }
-
-            #boxResponse {
-                background-color: #54565B;
-                box-shadow: 2px 3px 6px #5e564f;
-                height: 400px;
-                max-width: 800px;
-                border-radius: 25px;
-                padding: 0 30px;
-                display: none;
-            }
-
-            #btnProcurar {
-                margin-left: 3px;
-            }
-
-            .btn-gray {
-                background-color: #54565B;
-                color: #ffffff;
-            }
-
-            .text-alert,
-            .titleResponse,
-            .insertCep {
-                color: #FAD41B;
-                text-shadow: 1px 1px 1px #111111;
-                font-weight: bold;
-            }
-            .inputResponse {
-                box-shadow: 1px 1px 3px #111111;
-            }
-
-            /* Alerts */
-            .alerta-erro {
-                color: #721c24;
-                background-color: #f8d7da;
-                border-color: #f5c6cb;
-                border-radius: 15px;
-                text-align: center;
-            }
-
-            .alerta-sucesso {
-                color: #155724;
-                background-color: #d4edda;
-                border-color: #c3e6cb;
-                border-radius: 15px;
-                text-align: center;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ asset('site/bootstrap.css') }}"/>
+        <link rel="icon" type="imagem/png" href="{{ asset('image/van_transportadora.jpg') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/scope.css') }}"/>
     </head>
     <body class="antialiased">
 
@@ -88,12 +28,12 @@
              </div>
 
              <div class="mt-3" id="boxMessage">
-                <div class="mx-auto w-50 p-3" id="alertMessage">
+                <div class="mx-auto p-3" id="alertMessage">
                     <span id="insertTextResponse"></span>
                 </div>
              </div>
 
-             <div class="mx-auto p-3 mt-5" id="boxResponse">
+             <div class="mx-auto p-3 mt-3" id="boxResponse">
                 <div class="form-group mx-auto w-75 mt-2">
                     <label class="titleResponse">Municipio:</label>
                     <input type="text" disabled id="municipio" class="inputResponse form-control">
